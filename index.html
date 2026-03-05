@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Liga Deportiva Cantonal de Chaguarpamba</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="img/favicon.png">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Configuración de Tailwind -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        ldc: {
+                            blue: '#0B2046',    
+                            light: '#1A3668',   
+                            gold: '#F4B41A',    
+                            hover: '#FFC83D',   
+                            gray: '#F3F4F6'     
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        heading: ['Montserrat', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Iconos Lucide -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <!-- Fuentes -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Montserrat:wght@500;700;800;900&display=swap" rel="stylesheet">
+
+    <!-- Estilos CSS Integrados -->
+
+ <link rel="stylesheet" href="styles.css">
+
+</head>
+<!-- Agregamos overflow-x-hidden para evitar scroll lateral accidental en móviles -->
+<body class="flex flex-col min-h-screen antialiased overflow-x-hidden">
+
+    <!-- ENCABEZADO FIJO -->
+    <header class="fixed w-full top-0 z-50 bg-ldc-blue/95 backdrop-blur-md shadow-lg py-3 sm:py-4 border-b border-white/10">
+        <div class="container mx-auto px-4 sm:px-6 md:px-12 flex justify-between items-center">
+            
+            <!-- Logo -->
+            <div onclick="showSection('inicio')" class="flex items-center gap-2 sm:gap-3 group cursor-pointer">
+                <div class="bg-white p-1 sm:p-1.5 rounded-full shadow-md group-hover:scale-110 transition-transform duration-300">
+                    <img src="img/logoliga.png" onerror="this.src='https://ui-avatars.com/api/?name=LDC&background=0B2046&color=fff&rounded=true'" alt="[Image of Logo]" class="h-8 w-8 sm:h-10 sm:w-10 md:h-12 md:w-12">
+                </div>
+                <div class="block">
+                    <!-- Texto responsivo: Más pequeño en móviles -->
+                    <h1 class="text-lg sm:text-xl font-heading font-black text-white tracking-tight group-hover:text-ldc-gold transition-colors duration-300">LDC CHAGUARPAMBA</h1>
+                </div>
+            </div>
+
+            <!-- Menú Desktop -->
+            <nav class="hidden md:flex items-center space-x-6 lg:space-x-8">
+                <button onclick="showSection('inicio')" id="btn-inicio" class="nav-btn active-tab font-heading text-white font-semibold transition-colors text-xs lg:text-sm uppercase tracking-wider">Inicio</button>
+                <button onclick="showSection('nosotros')" id="btn-nosotros" class="nav-btn font-heading text-white hover:text-ldc-gold font-semibold transition-colors text-xs lg:text-sm uppercase tracking-wider">Nosotros</button>
+                <button onclick="showSection('disciplinas')" id="btn-disciplinas" class="nav-btn font-heading text-white hover:text-ldc-gold font-semibold transition-colors text-xs lg:text-sm uppercase tracking-wider">Disciplinas</button>
+                <button onclick="showSection('directiva')" id="btn-directiva" class="nav-btn font-heading text-white hover:text-ldc-gold font-semibold transition-colors text-xs lg:text-sm uppercase tracking-wider">Directiva</button>
+                <button onclick="showSection('contacto')" id="btn-contacto" class="bg-ldc-gold text-ldc-blue px-4 lg:px-6 py-2 lg:py-2.5 rounded-full font-bold text-xs lg:text-sm uppercase tracking-wider hover:bg-white hover:shadow-lg transition-all transform hover:-translate-y-0.5 ml-2">Contacto</button>
+            </nav>
+
+            <!-- Menú Móvil Botón -->
+            <button class="md:hidden text-ldc-gold p-2 hover:text-white transition-colors" onclick="toggleMobileMenu()">
+                <i data-lucide="menu" class="w-7 h-7"></i>
+            </button>
+        </div>
+
+        <!-- Menú Móvil Desplegable -->
+        <div id="mobile-menu" class="hidden absolute top-full left-0 w-full bg-ldc-light shadow-xl border-t border-white/10 max-h-[80vh] overflow-y-auto">
+            <div class="flex flex-col px-6 py-4 space-y-4">
+                <button onclick="showSection('inicio'); toggleMobileMenu()" class="text-left text-white hover:text-ldc-gold font-heading font-bold text-lg py-2">Inicio</button>
+                <button onclick="showSection('nosotros'); toggleMobileMenu()" class="text-left text-white hover:text-ldc-gold font-heading font-bold text-lg py-2">Nosotros</button>
+                <button onclick="showSection('disciplinas'); toggleMobileMenu()" class="text-left text-white hover:text-ldc-gold font-heading font-bold text-lg py-2">Disciplinas</button>
+                <button onclick="showSection('directiva'); toggleMobileMenu()" class="text-left text-white hover:text-ldc-gold font-heading font-bold text-lg py-2">Directiva</button>
+                <button onclick="showSection('contacto'); toggleMobileMenu()" class="text-left text-ldc-gold font-heading font-bold text-lg py-2">Contacto</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- CONTENEDOR PRINCIPAL -->
+    <!-- pt-16 para móviles, pt-24 para PC -->
+    <main class="flex-grow pt-16 md:pt-24"> 
+
+        <!-- ==========================================
+             SECCIÓN 1: INICIO (HERO) 
+             ========================================== -->
+        <section id="inicio" class="section-animate block relative">
+            
+            <!-- VIDEO DE FONDO -->
+            <div class="absolute inset-0 w-full h-full overflow-hidden z-0 bg-ldc-blue">
+                <video autoplay loop muted playsinline poster="https://civideportes.com.co/wp-content/uploads/2019/08/Cancha-de-f%C3%BAtbol-11.jpg" class="absolute top-0 left-0 w-full h-full object-cover">
+                    <source src="https://cdn.pixabay.com/video/2021/08/21/85847-591741162_large.mp4" type="video/mp4">
+                    Tu navegador no soporta videos HTML5.
+                </video>
+                <div class="absolute inset-0 bg-gradient-to-r from-ldc-blue/95 via-ldc-blue/70 to-transparent"></div>
+            </div>
+
+            <!-- CONTENIDO DEL HERO -->
+            <div class="relative z-10 min-h-[85vh] flex items-center">
+                <div class="container mx-auto px-4 sm:px-6 md:px-12 text-center md:text-left py-12 md:py-20">
+                    <div class="max-w-3xl mx-auto md:mx-0">
+                        <span class="inline-block py-1 px-3 rounded-full bg-ldc-gold/20 text-ldc-gold border border-ldc-gold/30 font-bold text-xs sm:text-sm tracking-widest mb-4 sm:mb-6 uppercase">
+                            Liga Deportiva Cantonal
+                        </span>
+                        <h2 class="text-4xl sm:text-5xl md:text-7xl font-black text-white font-heading leading-tight mb-4 sm:mb-6 drop-shadow-lg">
+                            Forjando <span class="text-transparent bg-clip-text bg-gradient-to-r from-ldc-gold to-yellow-200">Campeones</span><br>en Chaguarpamba.
+                        </h2>
+                        <p class="text-base sm:text-lg md:text-2xl text-gray-200 mb-8 sm:mb-10 font-light max-w-2xl leading-relaxed mx-auto md:mx-0">
+                            Disciplina, pasión y orgullo cantonal. Únete a nuestras disciplinas formativas y representa con tus capacidades al <strong>Vergel de la Patria</strong>.
+                        </p>
+                        <div class="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center md:justify-start">
+                            <button onclick="showSection('disciplinas')" class="w-full sm:w-auto bg-ldc-gold text-ldc-blue px-6 sm:px-8 py-3 sm:py-4 rounded-full font-bold text-base sm:text-lg hover:bg-white transition-all shadow-lg hover:shadow-xl transform hover:-translate-y-1 text-center">
+                                Ver Disciplinas
+                            </button>
+                            <button onclick="showSection('contacto')" class="w-full sm:w-auto border-2 border-white text-white px-6 sm:px-8 py-3 sm:py-4 rounded-full font-bold text-base sm:text-lg hover:bg-white hover:text-ldc-blue transition-all text-center flex justify-center items-center gap-2 backdrop-blur-sm">
+                                <i data-lucide="play-circle" class="w-5 h-5"></i> Contáctanos
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- FRANJA DE IMPACTO -->
+            <div class="bg-ldc-blue py-6 sm:py-10 relative z-10 -mt-6 sm:-mt-12 mx-4 sm:mx-8 md:mx-12 rounded-2xl shadow-2xl">
+                <div class="container mx-auto px-2 sm:px-4">
+                    <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 text-center divide-x divide-white/10">
+                        <div class="p-2 sm:p-4">
+                            <h4 class="text-3xl sm:text-4xl font-black text-ldc-gold mb-1">6</h4>
+                            <p class="text-white text-xs sm:text-sm font-medium uppercase tracking-wider">Disciplinas</p>
+                        </div>
+                        <div class="p-2 sm:p-4">
+                            <h4 class="text-3xl sm:text-4xl font-black text-ldc-gold mb-1">+60</h4>
+                            <p class="text-white text-xs sm:text-sm font-medium uppercase tracking-wider">Deportistas</p>
+                        </div>
+                        <div class="p-2 sm:p-4">
+                            <h4 class="text-3xl sm:text-4xl font-black text-ldc-gold mb-1">6</h4>
+                            <p class="text-white text-xs sm:text-sm font-medium uppercase tracking-wider">Entrenadores</p>
+                        </div>
+                        <div class="p-2 sm:p-4">
+                            <h4 class="text-3xl sm:text-4xl font-black text-ldc-gold mb-1">1</h4>
+                            <p class="text-white text-xs sm:text-sm font-medium uppercase tracking-wider">Pasión</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="pb-10 sm:pb-16"></div>
+        </section>
+
+        <!-- ==========================================
+             SECCIÓN 2: NOSOTROS
+             ========================================== -->
+        <section id="nosotros" class="section-animate hidden py-12 sm:py-16 md:py-24 bg-[#FAFAFA] relative overflow-hidden">
+            <div class="absolute inset-0 opacity-[0.03] z-0 pointer-events-none" style="background-image: url('https://images.unsplash.com/photo-1517649763962-0c623066013b?ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80'); background-size: cover; background-position: center; background-attachment: fixed;"></div>
+            
+            <div class="container mx-auto px-4 sm:px-6 md:px-12 relative z-10">
+                <div class="text-center max-w-3xl mx-auto mb-10 sm:mb-16 stagger-1">
+                    <h3 class="text-ldc-gold font-bold uppercase tracking-widest text-xs sm:text-sm mb-2">Institucional</h3>
+                    <h2 class="text-3xl sm:text-4xl md:text-5xl font-black text-ldc-blue font-heading">Nuestra Razón de Ser</h2>
+                    <div class="w-16 sm:w-20 h-1.5 bg-ldc-gold mx-auto mt-4 sm:mt-6 rounded-full"></div>
+                </div>
+
+                <div class="grid md:grid-cols-2 gap-8 sm:gap-12 items-center">
+                    <div class="space-y-6 sm:space-y-10">
+                        <div class="bg-white/90 backdrop-blur-sm p-6 sm:p-8 rounded-[1.5rem] sm:rounded-3xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:shadow-[0_8px_30px_rgb(0,0,0,0.08)] transition-shadow border border-gray-100 stagger-2">
+                            <div class="flex items-center gap-3 sm:gap-4 mb-4">
+                                <div class="bg-blue-50 p-2 sm:p-3 rounded-xl sm:rounded-2xl text-ldc-blue">
+                                    <i data-lucide="target" class="w-6 h-6 sm:w-8 sm:h-8"></i>
+                                </div>
+                                <h3 class="text-xl sm:text-2xl font-bold text-ldc-blue font-heading">Misión</h3>
+                            </div>
+                            <p class="text-gray-600 leading-relaxed text-sm sm:text-base lg:text-lg">
+                                Promover y masificar la práctica deportiva en el cantón Chaguarpamba, ofreciendo espacios de formación integral para niños y jóvenes. Fomentamos valores como la disciplina, el trabajo en equipo y la excelencia, bajo una gestión transparente.
+                            </p>
+                        </div>
+
+                        <div class="bg-white/90 backdrop-blur-sm p-6 sm:p-8 rounded-[1.5rem] sm:rounded-3xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:shadow-[0_8px_30px_rgb(0,0,0,0.08)] transition-shadow border border-gray-100 stagger-3">
+                            <div class="flex items-center gap-3 sm:gap-4 mb-4">
+                                <div class="bg-yellow-50 p-2 sm:p-3 rounded-xl sm:rounded-2xl text-ldc-gold">
+                                    <i data-lucide="eye" class="w-6 h-6 sm:w-8 sm:h-8"></i>
+                                </div>
+                                <h3 class="text-xl sm:text-2xl font-bold text-ldc-blue font-heading">Visión</h3>
+                            </div>
+                            <p class="text-gray-600 leading-relaxed text-sm sm:text-base lg:text-lg">
+                                Ser reconocidos a nivel provincial y nacional como una institución líder en la formación de talentos deportivos, siendo un referente de organización y desarrollo social a través del deporte cantonal.
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <div class="relative hidden md:block stagger-4">
+                        <div class="absolute inset-0 bg-ldc-blue rounded-[3rem] transform translate-x-4 translate-y-4"></div>
+                        <img src="https://scontent.fuio1-1.fna.fbcdn.net/v/t39.30808-6/522889408_760272596485732_4321788124579686310_n.jpg?stp=cp6_dst-jpg_tt6&_nc_cat=109&ccb=1-7&_nc_sid=7b2446&_nc_ohc=jU7z65wMPjcQ7kNvwEzTWq4&_nc_oc=AdkTqsLSqnvwTvxjaw0-6TUep1GY3d_iiW9rTeDslFLy4TTw5Wmq3kSKZjnFKggYjfM&_nc_zt=23&_nc_ht=scontent.fuio1-1.fna&_nc_gid=tsXolCvu6CBr4yz5afviwQ&_nc_ss=8&oh=00_AfyOOXE1BBnJZHkFYhtQbYJ-TtZAuXWcwy_jcP6-iLJkJQ&oe=69AE0246" alt="" class="relative rounded-[3rem] shadow-2xl z-10 w-full h-[400px] lg:h-[500px] object-cover grayscale hover:grayscale-0 transition-all duration-700">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==========================================
+             SECCIÓN 3: DISCIPLINAS
+             ========================================== -->
+        <section id="disciplinas" class="section-animate hidden py-12 sm:py-16 md:py-24 bg-white relative overflow-hidden">
+            <div class="absolute inset-0 opacity-[0.04] z-0 pointer-events-none" style="background-image: url('https://images.unsplash.com/photo-1461896836934-ffe607ba8211?ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80'); background-size: cover; background-position: center; background-attachment: fixed;"></div>
+
+            <div class="container mx-auto px-4 sm:px-6 md:px-12 relative z-10">
+                
+                <div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-10 sm:mb-16 stagger-1">
+                    <div class="max-w-2xl text-center md:text-left mx-auto md:mx-0">
+                        <h3 class="text-ldc-gold font-bold uppercase tracking-widest text-xs sm:text-sm mb-2">Escuelas Formativas</h3>
+                        <h2 class="text-3xl sm:text-4xl md:text-5xl font-black text-ldc-blue font-heading">Disciplinas Deportivas</h2>
+                    </div>
+                    <p class="text-gray-500 mt-4 md:mt-0 max-w-md text-center md:text-right text-sm sm:text-base mx-auto md:mx-0">
+                        Instalaciones de primer nivel y profesionales capacitados para desarrollar tu máximo potencial.
+                    </p>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+                    
+                    <!-- Fútbol -->
+                    <div class="group rounded-2xl sm:rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 bg-white border border-gray-100 stagger-1 flex flex-col">
+                        <div class="h-48 sm:h-56 relative overflow-hidden shrink-0">
+                            <img src="https://images.unsplash.com/photo-1511886929837-354d827aae26?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="[Image of Fútbol]" class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-6">
+                                <button onclick="abrirModalRegistro('Fútbol')" class="w-full bg-ldc-gold text-ldc-blue font-bold py-3 rounded-xl hover:bg-white transition-colors shadow-lg hidden md:block">Inscribirse Ahora</button>
+                            </div>
+                        </div>
+                        <div class="p-6 sm:p-8 flex-grow flex flex-col justify-between">
+                            <div>
+                                <div class="flex justify-between items-center mb-3 sm:mb-4">
+                                    <h3 class="text-xl sm:text-2xl font-black text-ldc-blue font-heading">Fútbol</h3>
+                                    <div class="bg-blue-50 p-2 rounded-lg text-ldc-gold">
+                                        <i data-lucide="goal" class="w-5 h-5 sm:w-6 sm:h-6"></i>
+                                    </div>
+                                </div>
+                                <p class="text-gray-600 text-sm sm:text-base mb-4 font-medium italic">"Formación integral enfocada en técnica, táctica y trabajo en equipo."</p>
+                                <ul class="space-y-2 text-sm text-gray-700">
+                                    <li class="flex items-center gap-2"><i data-lucide="users" class="w-4 h-4 text-ldc-gold"></i> <strong>Categoría:</strong> Sub-13</li>
+                                    <li class="flex items-center gap-2"><i data-lucide="user" class="w-4 h-4 text-ldc-gold"></i> <strong>Técnico:</strong> Por definir</li>
+                                    <li class="flex items-center gap-2"><i data-lucide="clock" class="w-4 h-4 text-ldc-gold"></i> <strong>Horario:</strong> Por definir</li>
+                                    <li class="flex items-center gap-2"><i data-lucide="map-pin" class="w-4 h-4 text-ldc-gold"></i> <strong>Lugar:</strong> Cancha Sintética</li>
+                                </ul>
+                            </div>
+                            <button onclick="abrirModalRegistro('Fútbol')" class="mt-6 w-full md:hidden bg-ldc-blue text-white font-bold py-3 rounded-xl text-sm transition-colors hover:bg-ldc-light">Inscribirse</button>
+                        </div>
+                    </div>
+
+                    <!-- Baloncesto -->
+                    <div class="group rounded-2xl sm:rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 bg-white border border-gray-100 stagger-2 flex flex-col">
+                        <div class="h-48 sm:h-56 relative overflow-hidden shrink-0">
+                            <img src="https://images.unsplash.com/photo-1546519638-68e109498ffc?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="[Image of Baloncesto]" class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-6">
+                                <button onclick="abrirModalRegistro('Baloncesto')" class="w-full bg-ldc-gold text-ldc-blue font-bold py-3 rounded-xl hover:bg-white transition-colors shadow-lg hidden md:block">Inscribirse Ahora</button>
+                            </div>
+                        </div>
+                        <div class="p-6 sm:p-8 flex-grow flex flex-col justify-between">
+                            <div>
+                                <div class="flex justify-between items-center mb-3 sm:mb-4">
+                                    <h3 class="text-xl sm:text-2xl font-black text-ldc-blue font-heading">Baloncesto</h3>
+                                    <div class="bg-orange-50 p-2 rounded-lg text-orange-500">
+                                        <i data-lucide="dribbble" class="w-5 h-5 sm:w-6 sm:h-6"></i>
+                                    </div>
+                                </div>
+                                <p class="text-gray-600 text-sm sm:text-base mb-4 font-medium italic">"Desarrollo de agilidad, coordinación y fundamentos del básquetbol moderno."</p>
+                                <ul class="space-y-2 text-sm text-gray-700">
+                                    <li class="flex items-center gap-2"><i data-lucide="users" class="w-4 h-4 text-ldc-gold"></i> <strong>Categoría:</strong> 8 a 16 años</li>
+                                    <li class="flex items-center gap-2"><i data-lucide="user" class="w-4 h-4 text-ldc-gold"></i> <strong>Técnico:</strong> Prof. Julio Castillo</li>
+                                    <li class="flex items-center gap-2"><i data-lucide="clock" class="w-4 h-4 text-ldc-gold"></i> <strong>Horario:</strong> 15H00 a 17H00</li>
+                                    <li class="flex items-center gap-2"><i data-lucide="map-pin" class="w-4 h-4 text-ldc-gold"></i> <strong>Lugar:</strong> Coliseo Municipal</li>
+                                </ul>
+                            </div>
+                            <button onclick="abrirModalRegistro('Baloncesto')" class="mt-6 w-full md:hidden bg-ldc-blue text-white font-bold py-3 rounded-xl text-sm transition-colors hover:bg-ldc-light">Inscribirse</button>
+                        </div>
+                    </div>
+
+                    <!-- Ajedrez -->
+                    <div class="group rounded-2xl sm:rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 bg-white border border-gray-100 stagger-3 flex flex-col">
+                        <div class="h-48 sm:h-56 relative overflow-hidden shrink-0">
+                            <img src="https://images.unsplash.com/photo-1529699211952-734e80c4d42b?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="" class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-6">
+                                <button onclick="abrirModalRegistro('Ajedrez')" class="w-full bg-ldc-gold text-ldc-blue font-bold py-3 rounded-xl hover:bg-white transition-colors shadow-lg hidden md:block">Inscribirse Ahora</button>
+                            </div>
+                        </div>
+                        <div class="p-6 sm:p-8 flex-grow flex flex-col justify-between">
+                            <div>
+                                <div class="flex justify-between items-center mb-3 sm:mb-4">
+                                    <h3 class="text-xl sm:text-2xl font-black text-ldc-blue font-heading">Ajedrez</h3>
+                                    <div class="bg-purple-50 p-2 rounded-lg text-purple-600">
+                                        <i data-lucide="crown" class="w-5 h-5 sm:w-6 sm:h-6"></i>
+                                    </div>
+                                </div>
+                                <p class="text-gray-600 text-sm sm:text-base mb-4 font-medium italic">"Potencia el pensamiento estratégico, la concentración y la agilidad mental."</p>
+                                <ul class="space-y-2 text-sm text-gray-700">
+                                    <li class="flex items-center gap-2"><i data-lucide="users" class="w-4 h-4 text-ldc-gold"></i> <strong>Categoría:</strong> 5 a 16 años</li>
+                                    <li class="flex items-center gap-2"><i data-lucide="user" class="w-4 h-4 text-ldc-gold"></i> <strong>Técnico:</strong> Pisc. Pablo Lalangui</li>
+                                    <li class="flex items-center gap-2"><i data-lucide="clock" class="w-4 h-4 text-ldc-gold"></i> <strong>Horario:</strong> 17H00 a 18H00</li>
+                                    <li class="flex items-center gap-2"><i data-lucide="map-pin" class="w-4 h-4 text-ldc-gold"></i> <strong>Lugar:</strong> Instalaciones LDC</li>
+                                </ul>
+                            </div>
+                            <button onclick="abrirModalRegistro('Ajedrez')" class="mt-6 w-full md:hidden bg-ldc-blue text-white font-bold py-3 rounded-xl text-sm transition-colors hover:bg-ldc-light">Inscribirse</button>
+                        </div>
+                    </div>
+
+                    <!-- Natación -->
+                    <div class="group rounded-2xl sm:rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 bg-white border border-gray-100 stagger-4 flex flex-col">
+                        <div class="h-48 sm:h-56 relative overflow-hidden shrink-0">
+                            <img src="https://images.unsplash.com/photo-1530549387789-4c1017266635?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="" class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-6">
+                                <button onclick="abrirModalRegistro('Natación')" class="w-full bg-ldc-gold text-ldc-blue font-bold py-3 rounded-xl hover:bg-white transition-colors shadow-lg hidden md:block">Inscribirse Ahora</button>
+                            </div>
+                        </div>
+                        <div class="p-6 sm:p-8 flex-grow flex flex-col justify-between">
+                            <div>
+                                <div class="flex justify-between items-center mb-3 sm:mb-4">
+                                    <h3 class="text-xl sm:text-2xl font-black text-ldc-blue font-heading leading-tight">Natación y Athletics</h3>
+                                    <div class="bg-blue-50 p-2 rounded-lg text-blue-500 shrink-0">
+                                        <i data-lucide="waves" class="w-5 h-5 sm:w-6 sm:h-6"></i>
+                                    </div>
+                                </div>
+                                <p class="text-gray-600 text-sm sm:text-base mb-4 font-medium italic">"Entrenamiento completo que mejora la resistencia cardiovascular y la técnica."</p>
+                                <ul class="space-y-2 text-sm text-gray-700">
+                                    <li class="flex items-center gap-2"><i data-lucide="users" class="w-4 h-4 text-ldc-gold"></i> <strong>Categoría:</strong> 6 años en adelante</li>
+                                    <li class="flex items-center gap-2"><i data-lucide="user" class="w-4 h-4 text-ldc-gold"></i> <strong>Técnico:</strong> Lic. Andrea Sánchez</li>
+                                    <li class="flex items-center gap-2"><i data-lucide="clock" class="w-4 h-4 text-ldc-gold"></i> <strong>Horario:</strong> 10H00 a 12H00</li>
+                                    <li class="flex items-center gap-2"><i data-lucide="map-pin" class="w-4 h-4 text-ldc-gold"></i> <strong>Lugar:</strong> Casa Campo</li>
+                                </ul>
+                            </div>
+                            <button onclick="abrirModalRegistro('Natación')" class="mt-6 w-full md:hidden bg-ldc-blue text-white font-bold py-3 rounded-xl text-sm transition-colors hover:bg-ldc-light">Inscribirse</button>
+                        </div>
+                    </div>
+
+                    <!-- Lucha -->
+                    <div class="group rounded-2xl sm:rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 bg-white border border-gray-100 stagger-5 flex flex-col">
+                        <div class="h-48 sm:h-56 relative overflow-hidden shrink-0">
+                            <img src="https://images.unsplash.com/photo-1614510065609-8472f854be7e?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="" class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-6">
+                                <button onclick="abrirModalRegistro('Lucha')" class="w-full bg-ldc-gold text-ldc-blue font-bold py-3 rounded-xl hover:bg-white transition-colors shadow-lg hidden md:block">Inscribirse Ahora</button>
+                            </div>
+                        </div>
+                        <div class="p-6 sm:p-8 flex-grow flex flex-col justify-between">
+                            <div>
+                                <div class="flex justify-between items-center mb-3 sm:mb-4">
+                                    <h3 class="text-xl sm:text-2xl font-black text-ldc-blue font-heading leading-tight">Lucha y Artes M.</h3>
+                                    <div class="bg-red-50 p-2 rounded-lg text-red-600 shrink-0">
+                                        <i data-lucide="swords" class="w-5 h-5 sm:w-6 sm:h-6"></i>
+                                    </div>
+                                </div>
+                                <p class="text-gray-600 text-sm sm:text-base mb-4 font-medium italic">"Disciplina que forja el carácter, la fuerza física y el respeto mutuo."</p>
+                                <ul class="space-y-2 text-sm text-gray-700">
+                                    <li class="flex items-center gap-2"><i data-lucide="users" class="w-4 h-4 text-ldc-gold"></i> <strong>Categoría:</strong> 8 a 16 años</li>
+                                    <li class="flex items-center gap-2"><i data-lucide="user" class="w-4 h-4 text-ldc-gold"></i> <strong>Técnico:</strong> Md. Angel Salinas</li>
+                                    <li class="flex items-center gap-2"><i data-lucide="clock" class="w-4 h-4 text-ldc-gold"></i> <strong>Horario:</strong> 15H00 a 17H00</li>
+                                    <li class="flex items-center gap-2"><i data-lucide="map-pin" class="w-4 h-4 text-ldc-gold"></i> <strong>Lugar:</strong> Instalaciones LDC</li>
+                                </ul>
+                            </div>
+                            <button onclick="abrirModalRegistro('Lucha')" class="mt-6 w-full md:hidden bg-ldc-blue text-white font-bold py-3 rounded-xl text-sm transition-colors hover:bg-ldc-light">Inscribirse</button>
+                        </div>
+                    </div>
+
+                    <!-- Ecuavoley -->
+                    <div class="group rounded-2xl sm:rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 bg-white border border-gray-100 stagger-6 flex flex-col">
+                        <div class="h-48 sm:h-56 relative overflow-hidden shrink-0">
+                            <img src="https://images.unsplash.com/photo-1612872087720-48ca45e4c6c1?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="" class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-6">
+                                <button onclick="abrirModalRegistro('Ecuavoley')" class="w-full bg-ldc-gold text-ldc-blue font-bold py-3 rounded-xl hover:bg-white transition-colors shadow-lg hidden md:block">Inscribirse Ahora</button>
+                            </div>
+                        </div>
+                        <div class="p-6 sm:p-8 flex-grow flex flex-col justify-between">
+                            <div>
+                                <div class="flex justify-between items-center mb-3 sm:mb-4">
+                                    <h3 class="text-xl sm:text-2xl font-black text-ldc-blue font-heading">Ecuavoley</h3>
+                                    <div class="bg-blue-50 p-2 rounded-lg text-ldc-blue">
+                                        <i data-lucide="activity" class="w-5 h-5 sm:w-6 sm:h-6"></i>
+                                    </div>
+                                </div>
+                                <p class="text-gray-600 text-sm sm:text-base mb-4 font-medium italic">"Preservamos nuestra tradición deportiva con técnica y espíritu competitivo."</p>
+                                <ul class="space-y-2 text-sm text-gray-700">
+                                    <li class="flex items-center gap-2"><i data-lucide="users" class="w-4 h-4 text-ldc-gold"></i> <strong>Categoría:</strong> 8 a 16 años</li>
+                                    <li class="flex items-center gap-2"><i data-lucide="user" class="w-4 h-4 text-ldc-gold"></i> <strong>Técnico:</strong> Prof. Julio Castillo</li>
+                                    <li class="flex items-center gap-2"><i data-lucide="clock" class="w-4 h-4 text-ldc-gold"></i> <strong>Horario:</strong> 15H00 a 17H00</li>
+                                    <li class="flex items-center gap-2"><i data-lucide="map-pin" class="w-4 h-4 text-ldc-gold"></i> <strong>Lugar:</strong> Centro Buen Vivir</li>
+                                </ul>
+                            </div>
+                            <button onclick="abrirModalRegistro('Ecuavoley')" class="mt-6 w-full md:hidden bg-ldc-blue text-white font-bold py-3 rounded-xl text-sm transition-colors hover:bg-ldc-light">Inscribirse</button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+
+        <!-- ==========================================
+             SECCIÓN 4: DIRECTIVA
+             ========================================== -->
+        <section id="directiva" class="section-animate hidden py-12 sm:py-16 md:py-24 bg-[#FAFAFA] relative overflow-hidden">
+            <div class="absolute inset-0 opacity-[0.03] z-0 pointer-events-none" style="background-image: url('https://images.unsplash.com/photo-1522071820081-009f0129c71c?ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80'); background-size: cover; background-position: center;"></div>
+
+            <div class="container mx-auto px-4 sm:px-6 md:px-12 relative z-10">
+                <div class="text-center max-w-3xl mx-auto mb-10 sm:mb-16 stagger-1">
+                    <h3 class="text-ldc-gold font-bold uppercase tracking-widest text-xs sm:text-sm mb-2">Liderazgo</h3>
+                    <h2 class="text-3xl sm:text-4xl md:text-5xl font-black text-ldc-blue font-heading">Directorio Institucional</h2>
+                    <div class="w-16 sm:w-20 h-1.5 bg-ldc-gold mx-auto mt-4 sm:mt-6 rounded-full"></div>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 sm:gap-10">
+                    
+                    <!-- Presidente -->
+                    <div class="bg-white/90 backdrop-blur-sm rounded-2xl sm:rounded-[2rem] p-6 sm:p-8 text-center shadow-md border border-gray-100 hover:-translate-y-2 transition-transform duration-300 stagger-2">
+                        <div class="w-24 h-24 sm:w-32 sm:h-32 mx-auto rounded-full p-1 bg-gradient-to-tr from-ldc-gold to-ldc-blue mb-4 sm:mb-6">
+                            <img src="https://ui-avatars.com/api/?name=PR&background=fff&color=0B2046&size=200" alt="" class="w-full h-full rounded-full border-2 sm:border-4 border-white object-cover">
+                        </div>
+                        <h4 class="text-lg sm:text-xl font-black text-ldc-blue font-heading mb-1">Nombre Apellido</h4>
+                        <p class="text-ldc-gold font-bold uppercase text-xs tracking-widest mb-3 sm:mb-4">Presidente</p>
+                        <p class="text-gray-500 text-xs sm:text-sm">"Trabajamos incansablemente para que nuestros jóvenes y niños tengan las mejores oportunidades."</p>
+                    </div>
+
+                    <!-- Vicepresidente -->
+                    <div class="bg-white/90 backdrop-blur-sm rounded-2xl sm:rounded-[2rem] p-6 sm:p-8 text-center shadow-md border border-gray-100 hover:-translate-y-2 transition-transform duration-300 stagger-3">
+                        <div class="w-24 h-24 sm:w-32 sm:h-32 mx-auto rounded-full p-1 bg-gradient-to-tr from-gray-200 to-gray-400 mb-4 sm:mb-6">
+                            <img src="https://ui-avatars.com/api/?name=VI&background=fff&color=0B2046&size=200" alt="" class="w-full h-full rounded-full border-2 sm:border-4 border-white object-cover">
+                        </div>
+                        <h4 class="text-lg sm:text-xl font-black text-ldc-blue font-heading mb-1">Nombre Apellido</h4>
+                        <p class="text-gray-500 font-bold uppercase text-xs tracking-widest mb-3 sm:mb-4">Vicepresidente</p>
+                    </div>
+
+                    <!-- Secretario -->
+                    <div class="bg-white/90 backdrop-blur-sm rounded-2xl sm:rounded-[2rem] p-6 sm:p-8 text-center shadow-md border border-gray-100 hover:-translate-y-2 transition-transform duration-300 stagger-4 sm:col-span-2 md:col-span-1">
+                        <div class="w-24 h-24 sm:w-32 sm:h-32 mx-auto rounded-full p-1 bg-gradient-to-tr from-gray-200 to-gray-400 mb-4 sm:mb-6">
+                            <img src="https://ui-avatars.com/api/?name=SE&background=fff&color=0B2046&size=200" alt="" class="w-full h-full rounded-full border-2 sm:border-4 border-white object-cover">
+                        </div>
+                        <h4 class="text-lg sm:text-xl font-black text-ldc-blue font-heading mb-1">Nombre Apellido</h4>
+                        <p class="text-gray-500 font-bold uppercase text-xs tracking-widest mb-3 sm:mb-4">Secretaria/o</p>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- ==========================================
+             SECCIÓN 5: CONTACTO
+             ========================================== -->
+        <section id="contacto" class="section-animate hidden py-0">
+            <div class="flex flex-col lg:flex-row shadow-xl">
+                
+                <div class="w-full lg:w-1/2 bg-ldc-blue text-white px-6 py-12 sm:px-10 sm:py-16 lg:px-24 flex flex-col justify-center">
+                    <div class="text-center lg:text-left">
+                        <h3 class="text-ldc-gold font-bold uppercase tracking-widest text-xs sm:text-sm mb-2">Comunícate</h3>
+                        <h2 class="text-3xl sm:text-4xl md:text-5xl font-black font-heading mb-8 sm:mb-10">¿Listo para unirte?</h2>
+                    </div>
+                    
+                    <div class="space-y-6 sm:space-y-8">
+                        <div class="flex items-center gap-4 sm:gap-6">
+                            <div class="bg-white/10 p-3 sm:p-4 rounded-full text-ldc-gold shrink-0">
+                                <i data-lucide="map-pin" class="w-5 h-5 sm:w-6 sm:h-6"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-base sm:text-lg">Dirección</h4>
+                                <p class="text-gray-300 text-sm sm:text-base">Segundo Piso Cuerpo de Bomberos, Chaguarpamba, Loja</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-center gap-4 sm:gap-6">
+                            <div class="bg-white/10 p-3 sm:p-4 rounded-full text-ldc-gold shrink-0">
+                                <i data-lucide="phone" class="w-5 h-5 sm:w-6 sm:h-6"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-base sm:text-lg">Teléfono / WhatsApp</h4>
+                                <p class="text-gray-300 text-sm sm:text-base">+593 99 1695 566</p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-center gap-4 sm:gap-6">
+                            <div class="bg-white/10 p-3 sm:p-4 rounded-full text-ldc-gold shrink-0">
+                                <i data-lucide="clock" class="w-5 h-5 sm:w-6 sm:h-6"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-base sm:text-lg">Horarios</h4>
+                                <p class="text-gray-300 text-sm sm:text-base">Lunes a Viernes: 14:00 - 17:00</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button onclick="contactWhatsApp('Información General')" class="mt-8 sm:mt-12 w-full lg:w-max bg-green-500 hover:bg-green-600 text-white font-bold py-3 sm:py-4 px-6 sm:px-8 rounded-full flex items-center justify-center gap-2 sm:gap-3 transition-colors shadow-lg">
+                        <i data-lucide="message-circle" class="w-5 h-5 sm:w-6 sm:h-6"></i> Escribir al WhatsApp
+                    </button>
+                </div>
+
+                <div class="w-full lg:w-1/2 min-h-[300px] sm:min-h-[400px] lg:min-h-auto bg-gray-200">
+                    <iframe 
+                        src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d1001.1483612448723!2d-79.64450000877613!3d-3.879767558598422!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e1!3m2!1ses!2sec!4v1767829025903!5m2!1ses!2sec" 
+                        class="w-full h-full border-0" 
+                        allowfullscreen="" 
+                        loading="lazy" 
+                        referrerpolicy="no-referrer-when-downgrade">
+                    </iframe>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==========================================
+             VENTANA FLOTANTE DE REGISTRO (MODAL)
+             ========================================== -->
+        <div id="registroModal" class="modal-overlay fixed inset-0 flex items-center justify-center py-4 px-4 overflow-y-auto">
+            <div class="modal-content bg-white w-full max-w-2xl rounded-3xl shadow-2xl relative my-auto overflow-hidden border border-gray-100">
+                
+                <!-- Cabecera del Modal -->
+                <div class="bg-ldc-blue px-6 py-4 flex justify-between items-center text-white">
+                    <div>
+                        <h3 class="font-heading font-black text-xl tracking-wide">Ficha de Inscripción</h3>
+                        <p class="text-ldc-gold text-sm font-semibold" id="disciplinaSeleccionadaTxt">Disciplina: Seleccionada</p>
+                    </div>
+                    <button onclick="cerrarModalRegistro()" class="text-gray-400 hover:text-white transition-colors bg-white/10 p-2 rounded-full">
+                        <i data-lucide="x" class="w-5 h-5"></i>
+                    </button>
+                </div>
+
+                <!-- Cuerpo del Formulario -->
+                <div class="p-6 sm:p-8 max-h-[70vh] overflow-y-auto custom-scrollbar">
+                    <form id="formInscripcion" class="space-y-8">
+                        
+                        <!-- Campo Oculto (Enviará la disciplina al Script) -->
+                        <input type="hidden" id="inputDisciplina" name="disciplina">
+
+                        <!-- Sección 1: Datos del Deportista -->
+                        <div>
+                            <div class="flex items-center gap-2 mb-4 border-b pb-2">
+                                <i data-lucide="user" class="w-5 h-5 text-ldc-blue"></i>
+                                <h4 class="font-bold text-ldc-blue text-lg">Datos del Deportista</h4>
+                            </div>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div class="md:col-span-2">
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Nombres y Apellidos</label>
+                                    <input type="text" name="nombres_dep" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-ldc-gold focus:border-ldc-gold transition-colors" placeholder="Ej. Juan Pérez">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Cédula de Identidad</label>
+                                    <!-- Validación: Solo acepta 10 números estrictamente -->
+                                    <input type="text" name="cedula_dep" required pattern="\d{10}" minlength="10" maxlength="10" oninput="this.value = this.value.replace(/[^0-9]/g, '')" title="Debe ingresar exactamente 10 números" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-ldc-gold focus:border-ldc-gold transition-colors" placeholder="Ej. 1101234567">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Años Cumplidos</label>
+                                    <input type="number" name="edad" required min="4" max="99" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-ldc-gold focus:border-ldc-gold transition-colors" placeholder="Ej. 12">
+                                </div>
+                                <div class="md:col-span-2">
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Lugar de Nacimiento</label>
+                                    <input type="text" name="lugar_nac" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-ldc-gold focus:border-ldc-gold transition-colors" placeholder="Provincia, Cantón">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Sección 2: Datos del Representante -->
+                        <div>
+                            <div class="flex items-center gap-2 mb-4 border-b pb-2 mt-2">
+                                <i data-lucide="shield-check" class="w-5 h-5 text-ldc-gold"></i>
+                                <h4 class="font-bold text-ldc-blue text-lg">Datos del Representante (Padre/Madre)</h4>
+                            </div>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div class="md:col-span-2">
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Nombres y Apellidos</label>
+                                    <input type="text" name="nombres_rep" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-ldc-gold focus:border-ldc-gold transition-colors" placeholder="Ej. María Gómez">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Cédula de Identidad</label>
+                                    <!-- Validación: Solo acepta 10 números estrictamente -->
+                                    <input type="text" name="cedula_rep" required pattern="\d{10}" minlength="10" maxlength="10" oninput="this.value = this.value.replace(/[^0-9]/g, '')" title="Debe ingresar exactamente 10 números" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-ldc-gold focus:border-ldc-gold transition-colors" placeholder="Ej. 1101234567">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Teléfono</label>
+                                    <!-- Validación: Solo acepta 10 números estrictamente -->
+                                    <input type="tel" name="telefono" required pattern="\d{10}" minlength="10" maxlength="10" oninput="this.value = this.value.replace(/[^0-9]/g, '')" title="Debe ingresar exactamente 10 números" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-ldc-gold focus:border-ldc-gold transition-colors" placeholder="Ej. 0991234567">
+                                </div>
+                                <div class="md:col-span-2">
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Dirección de Domicilio</label>
+                                    <input type="text" name="direccion" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-ldc-gold focus:border-ldc-gold transition-colors" placeholder="Barrio, Calle, Referencia">
+                                </div>
+                                <div class="md:col-span-2">
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Correo Electrónico</label>
+                                    <input type="email" name="correo" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-ldc-gold focus:border-ldc-gold transition-colors" placeholder="ejemplo@correo.com">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Botón de Envío y Mensajes -->
+                        <div class="pt-4">
+                            <button type="submit" id="btnSubmit" class="w-full bg-green-500 hover:bg-green-600 text-white font-bold py-4 rounded-xl shadow-lg transition-colors flex justify-center items-center gap-2">
+                                <span>Enviar Inscripción</span>
+                                <i data-lucide="send" class="w-5 h-5"></i>
+                            </button>
+                            
+                            <!-- Estado de carga invisible por defecto -->
+                            <div id="loadingState" class="hidden w-full flex flex-col items-center justify-center py-4 text-ldc-blue font-semibold">
+                                <div class="loader mb-2"></div>
+                                <p>Procesando registro...</p>
+                            </div>
+                            
+                            <!-- Alerta de éxito invisible por defecto -->
+                            <div id="successState" class="hidden mt-4 bg-green-50 text-green-700 p-4 rounded-lg border border-green-200 text-center font-medium">
+                                ¡Inscripción enviada exitosamente!
+                            </div>
+
+                            <!-- Alerta de duplicado invisible por defecto -->
+                            <div id="duplicateState" class="hidden mt-4 bg-red-50 text-red-700 p-4 rounded-lg border border-red-200 text-center font-medium">
+                                <i data-lucide="alert-circle" class="w-5 h-5 inline-block mb-1"></i><br>
+                                Este deportista ya se encuentra inscrito en esta disciplina. Puedes inscribirlo en una diferente.
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="bg-[#061229] text-gray-400 py-8 md:py-12 mt-auto">
+        <div class="container mx-auto px-4 sm:px-6 md:px-12">
+            <div class="flex flex-col md:flex-row justify-between items-center gap-6">
+                
+                <div class="text-center md:text-left">
+                    <div class="flex items-center gap-2 sm:gap-3 justify-center md:justify-start mb-3 sm:mb-4">
+                        <img src="img/logoliga.png" onerror="this.src='https://ui-avatars.com/api/?name=LDC&background=F4B41A&color=0B2046&rounded=true'" alt="" class="w-6 h-6 sm:w-8 sm:h-8">
+                        <span class="text-white font-heading font-bold text-lg sm:text-xl tracking-wider">LDC CHAGUARPAMBA</span>
+                    </div>
+                    <p class="text-xs sm:text-sm max-w-xs mx-auto md:mx-0">Trabajando por el deporte formativo y la juventud de nuestro cantón.</p>
+                </div>
+                
+                <div class="flex gap-3 sm:gap-4">
+                    <a href="#" class="p-2 sm:p-3 bg-white/5 rounded-full hover:bg-ldc-gold hover:text-ldc-blue transition-all">
+                        <i data-lucide="facebook" class="w-4 h-4 sm:w-5 sm:h-5"></i>
+                    </a>
+                    <a href="#" class="p-2 sm:p-3 bg-white/5 rounded-full hover:bg-ldc-gold hover:text-ldc-blue transition-all">
+                        <i data-lucide="instagram" class="w-4 h-4 sm:w-5 sm:h-5"></i>
+                    </a>
+                </div>
+            </div>
+            
+            <div class="border-t border-white/10 mt-6 sm:mt-10 pt-6 sm:pt-8 text-center text-xs sm:text-sm flex flex-col md:flex-row justify-between gap-2">
+                <p>&copy; 2026 Liga Deportiva Cantonal de Chaguarpamba. Todos los derechos reservados.</p>
+                <p>Diseñado para el futuro del deporte.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts Integrados -->
+    <!-- LÓGICA DE LA PÁGINA (Pestañas) -->
+    <script src="main.js"></script>
+    
+</body>
+</html>
+
+
